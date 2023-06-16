@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bitsilco Token Presale</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-size: 16px;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .token-input {
+            margin-top: 20px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: aquamarine;
+            font-size: 16px;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bitsilco Token Presale</h1>
+        <button onclick="connectMetamask()">CONNECT TO METAMASK</button>
+        <p id="accountArea"></p>
+        <button onclick="connectContract()">CONNECT TO CONTRACT</button>
+        <p id="contractArea"></p>
+        <div class="token-input">
+            <input type="number" id="usdtAmountInput" placeholder="Minimum Purchase 10 USDT" min="10" step="1" oninput="calculateTokenAmount()" />
+            <p>USDT</p>
+            <p id="tokenAmountArea">Tokens: 0</p>
+            <button onclick="buyTokens()">BUY TOKENS</button>
+        </div>
+        <p id="buyArea"></p>
+        <p id="recipientAddress"></p>
+    </div>
+
+    <script>
+        // 1- connect metamask
+        let account;
+        const connectMetamask = async () => {
+            if (typeof window.ethereum !== "undefined") {
+                try {
+                    await ethereum.request({ method: "eth_requestAccounts" });
+                    account = ethereum.selectedAddress;
+                    document.getElementById("accountArea").innerHTML = account;
+                } catch (error) {
+                    console.error(error);
+                    alert("An error occurred while connecting to Metamask. Please make sure you have Metamask installed and unlocked.");
+                }
+            } else {
+                alert("Metamask is not installed in your browser. Please install Metamask to proceed.");
+            }
+        }
+
+        // 2- connect to smart contract
+        const connectContract = async () => {
+            const contractABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "recipient",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
+            const Address = "0x4f525bc15Ca89d822F9E531a49ae05942dA3D7Bc";
+            try {
+                if (typeof window.ethereum !== "undefined") {
+                    window.web3 = new Web3(window.ethereum);
+                    window.contract = new window.web3.eth.Contract(contractABI, Address);
+                    document.getElementById("contractArea").innerHTML = "Connected to Contract";
+                } else {
+                    alert("Metamask is not installed in your browser. Please install Metamask to proceed.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("An error occurred while connecting to the contract. Please try again later.");
+            }
+        }
+
+        // 3- calculate token amount
+        const calculateTokenAmount = () => {
+            const usdtAmount = document.getElementById("usdtAmountInput").value;
+            const tokenPrice = 0.02; // Assuming token price is 0.02 USDT
+            const tokenAmount = usdtAmount / tokenPrice;
+            document.getElementById("tokenAmountArea").innerHTML = `Tokens: ${tokenAmount}`;
+        }
+
+        // 4- buy tokens
+        const buyTokens = async () => {
+            const usdtAmount = document.getElementById("usdtAmountInput").value;
+            const tokenPrice = 0.02; // Assuming token price is 0.02 USDT
+            const tokenAmount = usdtAmount / tokenPrice;
+
+            try {
+                const allowance = await window.contract.methods.allowance(account, Address).call();
+                if (parseInt(allowance) < tokenAmount) {
+                    await window.contract.methods.approve(Address, tokenAmount).send({ from: account });
+                }
+
+                const buyTokensTx = await window.contract.methods.buyTokens(tokenAmount).send({ from: account });
+
+                if (buyTokensTx.status) {
+                    document.getElementById("buyArea").innerHTML = "Tokens purchased successfully!";
+                    document.getElementById("recipientAddress").innerHTML = `Recipient Address: ${buyTokensTx.events.Transfer.returnValues.to}`;
+                }
+            } catch (error) {
+                console.error(error);
+                alert("An error occurred while buying tokens. Please try again later.");
+            }
+        }
+    </script>
+</body>
+</html>
