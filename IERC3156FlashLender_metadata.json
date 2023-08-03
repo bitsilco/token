@@ -1,0 +1,152 @@
+{
+	"compiler": {
+		"version": "0.8.9+commit.e5eed63a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "flashFee",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "contract IERC3156FlashBorrower",
+						"name": "receiver",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "data",
+						"type": "bytes"
+					}
+				],
+				"name": "flashLoan",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "token",
+						"type": "address"
+					}
+				],
+				"name": "maxFlashLoan",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"details": "Interface of the ERC3156 FlashLender, as defined in https://eips.ethereum.org/EIPS/eip-3156[ERC-3156]. _Available since v4.1._",
+			"kind": "dev",
+			"methods": {
+				"flashFee(address,uint256)": {
+					"details": "The fee to be charged for a given loan.",
+					"params": {
+						"amount": "The amount of tokens lent.",
+						"token": "The loan currency."
+					},
+					"returns": {
+						"_0": "The amount of `token` to be charged for the loan, on top of the returned principal."
+					}
+				},
+				"flashLoan(address,address,uint256,bytes)": {
+					"details": "Initiate a flash loan.",
+					"params": {
+						"amount": "The amount of tokens lent.",
+						"data": "Arbitrary data structure, intended to contain user-defined parameters.",
+						"receiver": "The receiver of the tokens in the loan, and the receiver of the callback.",
+						"token": "The loan currency."
+					}
+				},
+				"maxFlashLoan(address)": {
+					"details": "The amount of currency available to be lended.",
+					"params": {
+						"token": "The loan currency."
+					},
+					"returns": {
+						"_0": "The amount of `token` that can be borrowed."
+					}
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"bitsilco-contract_flattened.sol": "IERC3156FlashLender"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"bitsilco-contract_flattened.sol": {
+			"keccak256": "0xc213cb678efa9945136fba2084bb3bac66b97ab762dfd7ba7b6998b052def552",
+			"urls": [
+				"bzz-raw://63ad7fefd86ddda763c3872220790404394c7e72cd8869d77a388fa7b662bb5c",
+				"dweb:/ipfs/QmV8fvKhb2Rx8bpX85KadpcBwargTB2dMNgKec9niz5LVo"
+			]
+		}
+	},
+	"version": 1
+}

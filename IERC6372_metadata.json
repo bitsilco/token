@@ -1,0 +1,78 @@
+{
+	"compiler": {
+		"version": "0.8.9+commit.e5eed63a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "CLOCK_MODE",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "clock",
+				"outputs": [
+					{
+						"internalType": "uint48",
+						"name": "",
+						"type": "uint48"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"CLOCK_MODE()": {
+					"details": "Description of the clock"
+				},
+				"clock()": {
+					"details": "Clock used for flagging checkpoints. Can be overridden to implement timestamp based checkpoints (and voting)."
+				}
+			},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"bitsilco-contract_flattened.sol": "IERC6372"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"bitsilco-contract_flattened.sol": {
+			"keccak256": "0xc213cb678efa9945136fba2084bb3bac66b97ab762dfd7ba7b6998b052def552",
+			"urls": [
+				"bzz-raw://63ad7fefd86ddda763c3872220790404394c7e72cd8869d77a388fa7b662bb5c",
+				"dweb:/ipfs/QmV8fvKhb2Rx8bpX85KadpcBwargTB2dMNgKec9niz5LVo"
+			]
+		}
+	},
+	"version": 1
+}
